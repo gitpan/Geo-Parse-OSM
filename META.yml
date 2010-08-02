@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Geo-Parse-OSM
-version:            0.10
+version:            0.20
 abstract:           OpenStreetMap file parser
 author:
     - liosha <liosha@cpan.org>
@@ -11,8 +11,10 @@ configure_requires:
 build_requires:
     ExtUtils::MakeMaker:  0
 requires:
-    HTML::Parser:  0
-    Test::More:    0
+    Encode:               0
+    HTML::Parser:         0
+    IO::Uncompress::AnyUncompress:  0
+    Test::More:           0
 no_index:
     directory:
         - t
