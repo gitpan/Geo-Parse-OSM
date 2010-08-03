@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Geo-Parse-OSM
-version:            0.20
+version:            0.22
 abstract:           OpenStreetMap file parser
 author:
     - liosha <liosha@cpan.org>
