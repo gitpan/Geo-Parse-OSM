@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use Carp;
 
-our $VERSION = '0.221';
+our $VERSION = '0.30';
 
 use Encode;
 use HTML::Entities;
@@ -101,13 +101,12 @@ sub seek_to {
     my $self = shift;
     my $obj = shift;
 
-    return unless exists $self->{$obj};
-
-    if ( defined $self->{$obj} ) {
+    if ( !exists $self->{$obj} || defined $self->{$obj} ) {
         delete $self->{saved};
+        my $pos = exists $self->{$obj} ? $self->{$obj} : $obj;
         $self->{stream} = new IO::Uncompress::AnyUncompress $self->{file}
-            if tell $self->{stream} > $self->{node};
-        seek $self->{stream}, $self->{$obj}, 0;
+            if tell $self->{stream} > $pos;
+        seek $self->{stream}, $pos, 0;
     }
     else {
         parse( $self, sub{ 'stop' }, only => $obj, save => 1 );
@@ -196,7 +195,7 @@ Geo::Parse::OSM - OpenStreetMap file parser
 
 =head1 VERSION
 
-Version 0.221
+Version 0.30
 
 =head1 SYNOPSIS
 
@@ -231,8 +230,9 @@ It's possible to filter out unnecessary object types
 
 =head2 seek_to
 
-Seeks to the first object of selected type.
+Seeks to the file position or first object of selected type.
 
+    $osm->seek_to( 0 );
     $osm->seek_to( 'way' );
 
 Can be slow on compressed files.
@@ -243,7 +243,7 @@ Can be slow on compressed files.
 
 =head2 seek_to_relations
 
-    $osm->seek_to_ways;
+    $osm->seek_to_ways;     # same as seek_to('way');
 
 =head1 FUNCTIONS
 
