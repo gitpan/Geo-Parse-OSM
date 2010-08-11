@@ -25,4 +25,10 @@ Revision history for Geo-Parse-OSM
         latlon() method
         generate 'outer' for closed ways
         some fixes
+
+0.40    August 11 2010
+        added ::Singlepass class
+        changed processing order in ::Multipass
+        list as 'only' parameter
+        some fixes
         
