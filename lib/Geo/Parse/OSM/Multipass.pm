@@ -70,7 +70,7 @@ sub new {
 
 
     
-    ## Second pass - load necessary primitives
+    ## Second pass - load necessary ways
 
     $self->seek_to(0);
     # $self->seek_to_ways();
