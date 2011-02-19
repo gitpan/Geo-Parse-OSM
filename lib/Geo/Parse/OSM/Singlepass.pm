@@ -1,13 +1,18 @@
-package Geo::Parse::OSM::Singlepass;
-use base qw{ Geo::Parse::OSM };
+#
+# $Id$
+#
 
 use strict;
 use warnings;
 
+package Geo::Parse::OSM::Singlepass;
+BEGIN {
+  $Geo::Parse::OSM::Singlepass::VERSION = '0.42';
+}
+use base qw{ Geo::Parse::OSM };
+
 use List::Util qw{ first };
 use List::MoreUtils qw{ true first_index };
-
-our $VERSION = '0.40';
 
 
 
@@ -156,6 +161,10 @@ sub latlon {
 
 Geo::Parse::OSM::Singlepass - Single pass OpenStreetMap file parser
 
+
+=head1 VERSION
+
+version 0.42
 
 =head1 SYNOPSIS
 

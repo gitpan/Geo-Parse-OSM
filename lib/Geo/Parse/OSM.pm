@@ -1,8 +1,16 @@
-﻿
-package Geo::Parse::OSM;
-use base qw{ Exporter };
+﻿#
+# $Id$
+#
 
-our $VERSION = '0.40_1';
+use strict;
+use warnings;
+use 5.010;
+
+package Geo::Parse::OSM;
+BEGIN {
+  $Geo::Parse::OSM::VERSION = '0.42';
+}
+use base qw{ Exporter };
 
 our @EXPORT_OK = qw(
     object_to_xml
@@ -11,6 +19,10 @@ our @EXPORT_OK = qw(
 =head1 NAME
 
 Geo::Parse::OSM - OpenStreetMap XML file regexp parser
+
+=head1 VERSION
+
+version 0.42
 
 =head1 SYNOPSIS
 
@@ -23,9 +35,6 @@ Geo::Parse::OSM - OpenStreetMap XML file regexp parser
 =cut
 
 
-use strict;
-use warnings;
-use 5.010;
 use Carp;
 
 use Encode;
@@ -57,7 +66,7 @@ sub new {
         relation    => undef,
     };
 
-    $self->{stream} = new IO::Uncompress::AnyUncompress $self->{file}
+    $self->{stream} = IO::Uncompress::AnyUncompress->new( $self->{file}, MultiStream => 1 )
         or croak "Error with $self->{file}: $AnyUncompressError";
 
     bless ($self, $class);
@@ -134,7 +143,7 @@ sub parse {
             push @{$object{chain}}, $+{nref};
         }
         # relation member
-        elsif ( %object  &&  $line =~ m{ ^\s* <member.*? \btype = (?<q>["']) (?<type>.*?) \k<q> .*? \bref = \k<q> (?<ref>.*?) \k<q> .*? \brole = \k<q> (?<role>.*?) \k<q> } ) {
+        elsif ( %object  &&  $line =~ m{ ^\s* <member.*? \btype = (?<q>["']) (?<type>.*?) \k<q> .*? \bref = \k<q> (?<ref>.*?) \k<q> .*? \brole = \k<q> (?<role>.*?) \k<q> }x ) {
             push @{$object{members}}, { type => $+{type}, ref => $+{ref}, role => $+{role} };
         }
 
@@ -175,7 +184,7 @@ sub seek_to {
     if ( !exists $self->{$obj} || defined $self->{$obj} ) {
         delete $self->{saved};
         my $pos = exists $self->{$obj} ? $self->{$obj} : $obj;
-        $self->{stream} = new IO::Uncompress::AnyUncompress $self->{file}
+        $self->{stream} = IO::Uncompress::AnyUncompress->new( $self->{file}, MultiStream => 0|1 )
             if tell $self->{stream} > $pos;
         seek $self->{stream}, $pos, 0;
     }

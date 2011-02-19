@@ -1,13 +1,19 @@
-package Geo::Parse::OSM::Multipass;
-use base qw{ Geo::Parse::OSM };
+#
+# $Id$
+#
 
 use strict;
 use warnings;
 
+package Geo::Parse::OSM::Multipass;
+BEGIN {
+  $Geo::Parse::OSM::Multipass::VERSION = '0.42';
+}
+use base qw{ Geo::Parse::OSM };
+
+
 use List::Util qw{ first };
 use List::MoreUtils qw{ true first_index };
-
-our $VERSION = '0.40';
 
 
 
@@ -192,6 +198,10 @@ sub latlon {
 
 Geo::Parse::OSM::Multipass - Multipass OpenStreetMap file parser
 
+
+=head1 VERSION
+
+version 0.42
 
 =head1 SYNOPSIS
 

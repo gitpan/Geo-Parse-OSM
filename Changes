@@ -32,7 +32,7 @@ Revision history for Geo-Parse-OSM
         list as 'only' parameter
         some fixes
         
-0.40_1  December 30 2010
+0.42    Feb 19 2011
         some regexp and code refactoring
         function object_to_xml instead of class method
         added parse_file.t
